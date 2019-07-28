@@ -1,0 +1,110 @@
+***********************************************BEGIN*********************************
+
+{% for leaf, ip in leafs.items() %}
+
+##configure leafs
+!
+ssh {{ leaf }}
+!
+conf t
+!
+interface lo0
+ description VTEP interface for {{ leaf  }}
+ ip address {{ ip  }}/32
+ exit 
+!
+
+{% endfor %}
+
+{% for spine, ips in spines.items() %}
+configure spines
+ssh {{ spine }}
+!
+conf t
+!
+interface lo0
+ description VTEP interface for {{ spine }}
+ ip address {{ ips }}/32 
+ exit
+!
+{% endfor %}
+
+
+*************************************
+{% for leaf, ip in leafs.items()  %}
+
+configure bgp in leafs
+ssh {{ leaf }}
+!
+conf t
+!
+router bgp 65000
+ router ip {{ ip }}
+ address-family ipv4 unicast
+ !
+ template peer SPINE-IBGP
+ remote-as 65000
+ update-slource lo0
+ send community both
+ address-family ipv4 unicast
+ !
+ end
+!
+{% endfor %}
+
+****************************
+{% for spine, ips in spines.items() %}
+
+configure bgp in spines
+
+ssh {{  spine }}
+!
+conf t
+!
+router bgp 65000
+ router-id {{ ips }}
+ address-family ipv4 unicast
+ !
+ template peer LEAF-IBGP
+ remote-65000
+ update source lo0
+ address-family ipv4 unicast
+ send community both
+ route-reflector client
+ !
+end
+!
+{% endfor %} 
+
+*******************************
+
+{% for leaf, ip in leafs.items() %}
+{% for spine, ips in spines.items() %}
+
+running templates for ibgp between spines and leafs
+
+ssh {{ leaf }}
+!
+conf t
+!
+router bgp 65000
+neighbor {{ ips }}
+inherit peer SPINE-IBGP
+!
+end
+
+
+ssh {{ spine }}
+!
+conf t
+!
+router bgp 65000
+neighbor {{ ip }}
+inherit peer LEAF-IBGP
+!
+end
+!
+{% endfor %}
+{% endfor %}
+*****************************THE END*************************
+
