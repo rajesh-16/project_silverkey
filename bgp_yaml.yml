@@ -1,0 +1,8 @@
+---
+- name : config switch port
+  hosts: all
+  gather_facts: false
+  tasks:
+    - nclu:
+       - add interface swp1 10.0.0.1/30
+      atomic: true
