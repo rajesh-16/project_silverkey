@@ -1,0 +1,22 @@
+---
+
+bgp:
+  asn: 65000
+  port:
+    - interface: swp1
+      ip: 10.0.0.1
+    - interface: swp2
+      ip: 10.0.0.2
+    - interface: swp3
+      ip: 10.0.0.3
+    - interface: swp4
+      ip: 10.0.0.4
+  peer:
+    - neighbor: leaf01
+      ip: 10.0.0.9
+    - neighbor: leaf02
+      ip: 10.0.0.11
+    - neighbor: leaf03
+      ip: 10.0.0.13
+    - neighbor: leaf04
+      ip: 10.0.0.15

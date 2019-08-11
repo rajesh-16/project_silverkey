@@ -1,0 +1,6 @@
+ansible-playbook bgp_provision_spine01.yml --extra-vars 'ansible_ssh_pass=CumulusLinux!'
+ansible-playbook bgp_provision_spine02.yml --extra-vars 'ansible_ssh_pass=CumulusLinux!'
+ansible-playbook bgp_provision_leaf01.yml --extra-vars 'ansible_ssh_pass=CumulusLinux!'
+ansible-playbook bgp_provision_leaf02.yml --extra-vars 'ansible_ssh_pass=CumulusLinux!'
+ansible-playbook bgp_provision_leaf03.yml --extra-vars 'ansible_ssh_pass=CumulusLinux!'
+ansible-playbook bgp_provision_leaf04.yml --extra-vars 'ansible_ssh_pass=CumulusLinux!'

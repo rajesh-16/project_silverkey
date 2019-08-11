@@ -1,0 +1,18 @@
+---
+- name : config switch port
+  hosts: switches
+  gather_facts: false
+  tasks:
+    - nclu:
+       - template: |
+         {% for int in spine01.port %}
+         add interface {{ int.interface }} ip address {{ int.ip }}
+         {% endfor %}
+         add bgp automonous-system {{ spine01.bgp.asn }}
+         {% for nei in bgp.peer %}
+         add bgp neighbor {{ nei.ip }} remote-as external
+         add bgp ipv4 unicast neighbor {{ nei.ip }} activate
+         {% endfor %}
+      atomic: true
+      host: spine01
+      

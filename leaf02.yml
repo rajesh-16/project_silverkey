@@ -1,0 +1,14 @@
+---
+
+bgp:
+  asn: 65003
+  port:
+    - interface: swp1
+      ip: 10.0.0.11
+    - interface: swp2
+      ip: 10.0.0.12
+  peer:
+    - neighbor: spine1
+      ip: 10.0.0.2
+    - neighbor: spine1
+      ip: 10.0.0.6
