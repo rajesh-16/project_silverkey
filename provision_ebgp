@@ -1,0 +1,9 @@
+---
+- name: Provision ebgp in spines
+  hosts: spines
+  gather_facts: false
+  tasks:
+    -nclu:
+      - add bgp autonoumous-system 65000
+      - add bgp neighbor 10.0.0.2 external
+     atomic: true
