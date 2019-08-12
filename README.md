@@ -9,3 +9,6 @@ Leaf02: 65003
 Leaf03: 65004
 Leaf04: 65005
 To have almost zero touch fabric, please run bgp_provision.sh in linux based controller.
+
+
+Please clone bgp_provisioning.sh script into controller, run it and let the magic unfold.
