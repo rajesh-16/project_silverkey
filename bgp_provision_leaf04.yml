@@ -1,0 +1,16 @@
+---
+- name : config switch port
+  hosts: leaf04
+  gather_facts: false
+  tasks:
+    - nclu:
+       - template: |
+         {% for int in bgp.port %}
+         add interface {{ int.interface }} ip address {{ int.ip }}
+         {% endfor %}
+         add bgp automonous-system {{ bgp.asn }}
+         {% for nei in bgp.peer %}
+         add bgp neighbor {{ nei.ip }} remote-as external
+         add bgp ipv4 unicast neighbor {{ nei.ip }} activate
+         {% endfor %}
+      atomic: true
